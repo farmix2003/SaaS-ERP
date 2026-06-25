@@ -23,6 +23,7 @@ public class Company extends BaseEntity{
 
     private String industry;
 
+    @Column(name = "phone_number")
     private String phoneNumber;
 
     private String email;

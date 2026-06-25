@@ -2,30 +2,40 @@ spring:
   application:
     name: erp_backend
 
-datasource:
-   url: jdbc:postgresql://localhost:5432/erp_db
-   username: postgresql
-   password: 20030825
-   driver-class-name: org.postgresql.Driver
+  # ====================== Database Configuration ======================
+  datasource:
+    url: jdbc:postgresql://localhost:5432/erp_db
+    username: postgres
+    password: 20030825
+    driver-class-name: org.postgresql.Driver
 
-   jpa:
-     hibernate:
-       ddl-auto: validate
-     show-sql: true
-     properties:
-       hibernate:
-         format_sql: true
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
 
-   flyway:
-     enabled: true
-     locations: classpath:db/migration
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true   # Recommended when starting fresh
 
-   server:
-     port: 8080
+  # ====================== Server Configuration ======================
+  server:
+    port: 8080
 
-   management:
-     endpoints:
-       web:
-         exposure:
-           include: health,info
+  # ====================== Management Endpoints ======================
+  management:
+    endpoints:
+      web:
+        exposure:
+          include: health,info
 
+# Optional: Logging level for better debugging
+logging:
+  level:
+    org.springframework: INFO
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE

@@ -2,7 +2,7 @@ CREATE TABLE companies (
                            id BIGSERIAL PRIMARY KEY,
                            name VARCHAR(150) NOT NULL,
                            industry VARCHAR(100),
-                           phone VARCHAR(30),
+                           phone_number VARCHAR(30),
                            email VARCHAR(150),
                            created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
                            updated_at TIMESTAMP
