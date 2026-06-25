@@ -1,0 +1,14 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: erp-postgres
+    environment:
+      POSTGRES_DB: erp_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 20030825
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+volumes:
+    postgres-data:
