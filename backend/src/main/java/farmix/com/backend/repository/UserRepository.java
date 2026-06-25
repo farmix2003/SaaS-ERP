@@ -1,6 +1,6 @@
 package farmix.com.backend.repository;
 
-import farmix.com.backend.entity.User;
+import farmix.com.backend.user.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

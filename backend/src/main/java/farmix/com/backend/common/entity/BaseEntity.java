@@ -1,4 +1,4 @@
-package farmix.com.backend.entity;
+package farmix.com.backend.common.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;

@@ -1,4 +1,4 @@
-package farmix.com.backend.entity;
+package farmix.com.backend.user.entity;
 
 public enum UserRole {
     SUPER_ADMIN,

@@ -1,5 +1,7 @@
-package farmix.com.backend.entity;
+package farmix.com.backend.user.entity;
 
+import farmix.com.backend.common.entity.BaseEntity;
+import farmix.com.backend.company.entity.Company;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -10,7 +12,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class User extends BaseEntity{
+public class User extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
