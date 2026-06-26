@@ -1,5 +1,7 @@
 package farmix.com.backend.auth.controller;
 
+import farmix.com.backend.auth.dto.AuthResponse;
+import farmix.com.backend.auth.dto.LoginRequest;
 import farmix.com.backend.auth.dto.RegisterCompanyRequest;
 import farmix.com.backend.auth.dto.RegisterCompanyResponse;
 import farmix.com.backend.auth.service.AuthService;
@@ -22,4 +24,8 @@ public class AuthController {
         return authService.createCompany(request);
     }
 
+    @PostMapping("/login")
+    public ResponseEntity<AuthResponse> login(@Valid @RequestBody LoginRequest request){
+        return ResponseEntity.ok(authService.login(request));
+    }
 }
