@@ -1,23 +1,5 @@
 package farmix.com.backend.inventory.service;
 
-import farmix.com.backend.common.exception.BadRequestException;
-import farmix.com.backend.common.exception.NotFoundException;
-import farmix.com.backend.company.entity.Company;
-import farmix.com.backend.inventory.dto.*;
-import farmix.com.backend.inventory.entity.StockMovement;
-import farmix.com.backend.inventory.entity.StockMovementType;
-import farmix.com.backend.inventory.mapper.StockMovementMapper;
-import farmix.com.backend.inventory.repository.StockMovementRepository;
-import farmix.com.backend.product.entity.Product;
-import farmix.com.backend.product.repository.ProductRepository;
-import farmix.com.backend.repository.CompanyRepository;
-import farmix.com.backend.repository.UserRepository;
-import farmix.com.backend.security.CurrentUser;
-import farmix.com.backend.user.entity.User;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -25,9 +7,34 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
+
+import farmix.com.backend.common.exception.BadRequestException;
+import farmix.com.backend.common.exception.NotFoundException;
+import farmix.com.backend.company.entity.Company;
+import farmix.com.backend.company.repository.CompanyRepository;
+import farmix.com.backend.inventory.dto.ProductStockResponse;
+import farmix.com.backend.inventory.dto.StockAdjustmentRequest;
+import farmix.com.backend.inventory.dto.StockInRequest;
+import farmix.com.backend.inventory.dto.StockMovementResponse;
+import farmix.com.backend.inventory.dto.StockOutRequest;
+import farmix.com.backend.inventory.entity.StockMovement;
+import farmix.com.backend.inventory.entity.StockMovementType;
+import farmix.com.backend.inventory.mapper.StockMovementMapper;
+import farmix.com.backend.inventory.repository.StockMovementRepository;
+import farmix.com.backend.product.entity.Product;
+import farmix.com.backend.product.repository.ProductRepository;
+import farmix.com.backend.security.CurrentUser;
+import farmix.com.backend.user.entity.User;
+import farmix.com.backend.user.repository.UserRepository;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
+@Validated
 public class InventoryService {
 
     private final ProductRepository productRepository;
@@ -84,7 +91,7 @@ public class InventoryService {
 
     @Transactional
     @PreAuthorize("hasAnyRole('COMPANY_ADMIN', 'MANAGER')")
-    public StockMovementResponse adjust(StockAdjustmentRequest request){
+    public StockMovementResponse adjust(StockAdjustmentRequest request) {
         Product product = getLockedProduct(request.productId());
 
         int previousQuantity = product.getStockQuantity();

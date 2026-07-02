@@ -1,14 +1,15 @@
 package farmix.com.backend.security;
 
-import farmix.com.backend.repository.UserRepository;
-import farmix.com.backend.user.entity.User;
-import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.NonNull;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import farmix.com.backend.user.entity.User;
+import farmix.com.backend.user.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor

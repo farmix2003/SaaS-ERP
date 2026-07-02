@@ -1,25 +1,26 @@
 package farmix.com.backend.auth.service;
 
-import farmix.com.backend.auth.dto.AuthResponse;
-import farmix.com.backend.auth.dto.LoginRequest;
-import farmix.com.backend.auth.dto.RegisterCompanyRequest;
-import farmix.com.backend.auth.dto.RegisterCompanyResponse;
-import farmix.com.backend.common.exception.BadRequestException;
-import farmix.com.backend.company.entity.Company;
-import farmix.com.backend.security.JwtService;
-import farmix.com.backend.security.UserPrincipal;
-import farmix.com.backend.user.entity.User;
-import farmix.com.backend.user.entity.UserRole;
-import farmix.com.backend.user.entity.UserStatus;
-import farmix.com.backend.repository.CompanyRepository;
-import farmix.com.backend.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import farmix.com.backend.auth.dto.AuthResponse;
+import farmix.com.backend.auth.dto.LoginRequest;
+import farmix.com.backend.auth.dto.RegisterCompanyRequest;
+import farmix.com.backend.auth.dto.RegisterCompanyResponse;
+import farmix.com.backend.common.exception.BadRequestException;
+import farmix.com.backend.company.entity.Company;
+import farmix.com.backend.company.repository.CompanyRepository;
+import farmix.com.backend.security.JwtService;
+import farmix.com.backend.security.UserPrincipal;
+import farmix.com.backend.user.entity.User;
+import farmix.com.backend.user.entity.UserRole;
+import farmix.com.backend.user.entity.UserStatus;
+import farmix.com.backend.user.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
