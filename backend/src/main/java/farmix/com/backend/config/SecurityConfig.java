@@ -48,8 +48,10 @@ public class SecurityConfig {
                                 .accessDeniedHandler(restAccessDeniedHandler)
                         )
                     .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/actuator/health").permitAll()
-                        .requestMatchers("/api/v1/auth/**").permitAll()
+                            .requestMatchers("/api/v1/auth/**").permitAll()
+                            .requestMatchers("/actuator/health", "/actuator/health/**").permitAll()
+                            .requestMatchers("/actuator/info").permitAll()
+                            .requestMatchers("/actuator/metrics/**", "/actuator/prometheus").authenticated()
                         .anyRequest().authenticated()
                 )
                 .authenticationProvider(authenticationProvider())
