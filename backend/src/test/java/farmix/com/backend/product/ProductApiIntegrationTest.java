@@ -84,7 +84,7 @@ public class ProductApiIntegrationTest extends AbstractIntegrationTest {
                                 }
                                 """))
                 .andExpect(status().isConflict())
-                .andExpect(jsonPath("$.message").value("Product SKU already exists in this company in this company"));
+                .andExpect(jsonPath("$.message").value("Product already exists"));
     }
 
     @Test
