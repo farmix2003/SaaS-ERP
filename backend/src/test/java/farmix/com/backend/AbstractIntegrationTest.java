@@ -1,6 +1,5 @@
 package farmix.com.backend;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
@@ -15,7 +14,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 @org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc
 @ActiveProfiles("test")
 @Sql(
-        statements = "TRUNCATE TABLE products, users, companies RESTART IDENTITY CASCADE",
+        statements = "TRUNCATE TABLE stock_movements, products, users, companies RESTART IDENTITY CASCADE",
         executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD
 )
 public abstract class AbstractIntegrationTest {
