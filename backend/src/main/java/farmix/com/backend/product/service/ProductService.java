@@ -1,5 +1,6 @@
 package farmix.com.backend.product.service;
 
+import farmix.com.backend.observability.BusinessMetrics;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -33,6 +34,7 @@ public class ProductService {
     private final UserRepository userRepository;
     private final ProductMapper productMapper;
     private final CurrentUser currentUser;
+    private final BusinessMetrics businessMetrics;
 
     @Transactional
     @PreAuthorize("hasAnyRole('COMPANY_ADMIN', 'MANAGER')")
@@ -61,7 +63,7 @@ public class ProductService {
                 .build();
 
         Product savedProduct = productRepository.save(product);
-
+        businessMetrics.productCreated();
         return productMapper.toResponse(savedProduct);
     }
 

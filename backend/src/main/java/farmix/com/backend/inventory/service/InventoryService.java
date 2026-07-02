@@ -1,5 +1,6 @@
 package farmix.com.backend.inventory.service;
 
+import farmix.com.backend.observability.BusinessMetrics;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -43,6 +44,7 @@ public class InventoryService {
     private final UserRepository userRepository;
     private final StockMovementMapper mapper;
     private final CurrentUser currentUser;
+    private final BusinessMetrics businessMetrics;
 
     @Transactional
     @PreAuthorize("hasAnyRole('COMPANY_ADMIN','MANAGER')")
@@ -62,6 +64,9 @@ public class InventoryService {
                 newQuantity,
                 normalizeReason(request.reason())
         );
+
+        businessMetrics.stockIn();
+
         return mapper.toResponse(stockMovement);
     }
 
@@ -72,6 +77,7 @@ public class InventoryService {
 
         int previousQuantity = product.getStockQuantity();
         if (previousQuantity < request.quantity()){
+            businessMetrics.insufficientStock();
             throw new BadRequestException("quantity less than or equal to request quantity");
         }
 
@@ -86,6 +92,9 @@ public class InventoryService {
                 newQuantity,
                 normalizeReason(request.reason())
         );
+
+        businessMetrics.stockOut();
+
         return mapper.toResponse(stockMovement);
     }
 
@@ -111,6 +120,9 @@ public class InventoryService {
                 newQuantity,
                 normalizeReason(request.reason())
         );
+
+        businessMetrics.stockAdjusted();
+
         return mapper.toResponse(stockMovement);
     }
 

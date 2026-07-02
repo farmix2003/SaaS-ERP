@@ -21,26 +21,41 @@ spring:
   flyway:
     enabled: true
     locations: classpath:db/migration
-    baseline-on-migrate: true   # Recommended when starting fresh
+    baseline-on-migrate: true
 
-  # ====================== Server Configuration ======================
-  server:
-    port: 8080
+# ====================== Server Configuration ======================
+server:  # ✅ CORRECT - Top level
+  port: 8080
 
-  # ====================== Management Endpoints ======================
-  management:
-    endpoints:
-      web:
-        exposure:
-          include: health,info
+# ====================== Management Endpoints ======================
+management:  # ✅ CORRECT - Top level
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      show-details: when_authorized
+  metrics:
+    tags:
+      application: ${spring.application.name}
 
-# Optional: Logging level for better debugging
-logging:
+# ====================== Application Info ======================
+info:  # ✅ CORRECT - Top level
+  app:
+    name: ERP Backend
+    description: Multi-tenant SaaS ERP backend
+
+# ====================== Logging ======================
+logging:  # ✅ CORRECT - Top level
   level:
     org.springframework: INFO
     org.hibernate.SQL: DEBUG
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
 
-jwt:
+# ====================== JWT ======================
+jwt:  # ✅ CORRECT - Top level (custom property)
   secret: ${JWT_SECRET:MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWY=}
   access-token-expiration-ms: 900000
