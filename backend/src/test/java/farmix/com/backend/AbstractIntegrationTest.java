@@ -15,7 +15,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 @org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc
 @ActiveProfiles("test")
 @Sql(
-        statements = "TRUNCATE TABLE stock_movements, products, users, companies RESTART IDENTITY CASCADE",
+        statements = "TRUNCATE TABLE customers,stock_movements, products, users, companies RESTART IDENTITY CASCADE",
         executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD
 )
 public abstract class AbstractIntegrationTest {
