@@ -35,7 +35,7 @@ public class CustomerService {
     private final CurrentUser currentUser;
 
     @Transactional
-    @PreAuthorize("hasRole('COMPANY_ADMIN') or hasRole('MANAGER')")
+    @PreAuthorize("hasAnyRole('COMPANY_ADMIN') or hasRole('MANAGER')")
     public CustomerResponse create(CreateCustomerRequest request){
         Long companyId = currentUser.getCompanyId();
         Long userId = currentUser.getUserId();
@@ -60,7 +60,7 @@ public class CustomerService {
     }
 
     @Transactional(readOnly = true)
-    @PreAuthorize("hasRole('COMPANY_ADMIN','MANAGER', 'EMPLOYEE')")
+    @PreAuthorize("hasAnyRole('COMPANY_ADMIN','MANAGER', 'EMPLOYEE')")
     public CustomerResponse get(Long id){
     Long companyId = currentUser.getCompanyId();
 
@@ -71,7 +71,7 @@ public class CustomerService {
     }
 
     @Transactional(readOnly = true)
-    @PreAuthorize("hasRole('COMPANY_ADMIN','MANAGER', 'EMPLOYEE')")
+    @PreAuthorize("hasAnyRole('COMPANY_ADMIN','MANAGER', 'EMPLOYEE')")
     public Page<CustomerResponse> search(String q, CustomerStatus status, Pageable pageable){
         Long companyId = currentUser.getCompanyId();
 
@@ -79,8 +79,8 @@ public class CustomerService {
                 .map(customerMapper::toResponse);
     }
 
-    @Transactional(readOnly = true)
-    @PreAuthorize("hasRole('COMPANY_ADMIN','MANAGER')")
+    @Transactional
+        @PreAuthorize("hasAnyRole('COMPANY_ADMIN','MANAGER')")
     public CustomerResponse update(Long id, UpdateCustomerRequest request){
         Long companyId = currentUser.getCompanyId();
         Long userId = currentUser.getUserId();
@@ -133,8 +133,8 @@ public class CustomerService {
     }
 
     private Pageable sanitizePageable(Pageable pageable) {
-       int page = Math.max(1, pageable.getPageNumber());
-       int size = Math.min(Math.max(pageable.getPageSize(), pageable.getPageSize()), 100);
+       int page = Math.max(0, pageable.getPageNumber());
+       int size = Math.min(Math.max(pageable.getPageSize(), 1), 100);
        return PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
     }
 

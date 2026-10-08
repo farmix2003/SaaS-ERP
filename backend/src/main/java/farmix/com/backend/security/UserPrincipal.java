@@ -3,6 +3,7 @@ package farmix.com.backend.security;
 import farmix.com.backend.user.entity.User;
 import farmix.com.backend.user.entity.UserStatus;
 import lombok.Getter;
+import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -31,26 +32,31 @@ public class UserPrincipal implements UserDetails {
     }
 
     @Override
+    @NullMarked
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("ROLE_"+role));
     }
 
     @Override
+    @NullMarked
     public String getUsername() {
         return email;
     }
 
     @Override
+    @NullMarked
     public boolean isAccountNonExpired() {
         return true;
     }
 
     @Override
+    @NullMarked
     public boolean isAccountNonLocked() {
         return true;
     }
 
     @Override
+    @NullMarked
     public boolean isCredentialsNonExpired() {
         return true;
     }

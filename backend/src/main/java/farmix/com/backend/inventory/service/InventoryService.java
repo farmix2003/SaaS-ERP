@@ -115,7 +115,7 @@ public class InventoryService {
         StockMovement stockMovement = saveMovement(
                 product,
                 StockMovementType.ADJUSTMENT,
-                request.newQuantity(),
+                movementQuantity,
                 previousQuantity,
                 newQuantity,
                 normalizeReason(request.reason())
@@ -199,7 +199,7 @@ public class InventoryService {
     private Product getLockedProduct(@NotNull(message = "Product id is required") Long productId) {
         Long companyId = currentUser.getCompanyId();
 
-        return productRepository.findByIdAndCompany_Id(companyId, productId).orElseThrow(() -> new NotFoundException("Product not found"));
+        return productRepository.findByIdAndCompany_Id(productId,companyId).orElseThrow(() -> new NotFoundException("Product not found"));
     }
 
 }

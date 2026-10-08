@@ -1,4 +1,4 @@
-package farmix.com.backend.customer.customer;
+package farmix.com.backend.customer.controller;
 
 import farmix.com.backend.common.dto.PageResponse;
 import farmix.com.backend.customer.dto.CreateCustomerRequest;
