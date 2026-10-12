@@ -23,9 +23,9 @@ public interface CustomerRepository  extends JpaRepository<Customer, Long> {
               AND (:status IS NULL OR c.status = :status)
               AND (
                     :q IS NULL
-                    OR LOWER(c.fullName) LIKE LOWER(CONCAT('%', :q, '%'))
-                    OR LOWER(c.phone) LIKE LOWER(CONCAT('%', :q, '%'))
-                    OR LOWER(c.email) LIKE LOWER(CONCAT('%', :q, '%'))
+                    OR LOWER(CAST(c.fullName AS text)) LIKE LOWER(CAST(CONCAT('%', :q, '%') AS text))
+                    OR LOWER(CAST(c.phone AS text)) LIKE LOWER(CAST(CONCAT('%', :q, '%') AS text))
+                    OR LOWER(CAST(c.email AS text)) LIKE LOWER(CAST(CONCAT('%', :q, '%') AS text))
                   )
             """)
     Page<Customer> search(
