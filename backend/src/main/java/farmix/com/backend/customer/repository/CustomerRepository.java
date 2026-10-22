@@ -34,4 +34,6 @@ public interface CustomerRepository  extends JpaRepository<Customer, Long> {
             @Param("status") CustomerStatus status,
             Pageable pageable
     );
+
+    long countByCompany_Id(Long companyId);
 }

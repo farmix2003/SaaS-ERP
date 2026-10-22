@@ -1,5 +1,6 @@
 package farmix.com.backend.user.service;
 
+import farmix.com.backend.audit.service.AuditLogService;
 import farmix.com.backend.common.exception.BadRequestException;
 import farmix.com.backend.common.exception.NotFoundException;
 import farmix.com.backend.company.entity.Company;
@@ -33,6 +34,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final UserMapper userMapper;
     private final CurrentUser currentUser;
+    private final AuditLogService auditLogService;
 
     @Transactional
     @PreAuthorize("hasRole('COMPANY_ADMIN')")
@@ -98,19 +100,19 @@ public class UserService {
     public UserResponse changeRole(Long id, ChangeUserRoleRequest req){
         Long companyId = currentUser.getCompanyId();
         Long currentUserId = currentUser.getUserId();
-
         if(id.equals(currentUserId)) {
-          throw new BadRequestException("You can not change your own role");
+            throw new BadRequestException("You can not change your own role");
         }
         if(req.role() == UserRole.SUPER_ADMIN) {
             throw new BadRequestException("Cannot change role of user with role SUPER_ADMIN");
         }
 
-        User user = userRepository.findByIdAndCompany_Id(id, companyId)
+                User user = userRepository.findByIdAndCompany_Id(id, companyId)
                 .orElseThrow(() -> new NotFoundException("User not found"));
+        String oldRole = user.getStatus().name();
 
         user.setRole(req.role());
-
+        auditLogService.record(companyId, currentUserId, "USER_ROLE_CHANGED", "User", user.getId(), oldRole, req.role().name());
         return userMapper.toResponse(userRepository.save(user));
     }
 

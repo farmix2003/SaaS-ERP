@@ -1,6 +1,6 @@
 package farmix.com.backend.order.controller;
 
-import farmix.com.backend.order.OrderService;
+import farmix.com.backend.order.service.OrderService;
 import farmix.com.backend.order.dto.CreateOrderRequest;
 import farmix.com.backend.order.dto.OrderResponse;
 import farmix.com.backend.order.dto.UpdateOrderStatusRequest;
