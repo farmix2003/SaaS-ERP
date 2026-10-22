@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 
 @Repository
@@ -29,5 +30,24 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
             @Param("customerId") Long customerId,
             Pageable pageable
     );
+
+    @Query("""
+      SELECT COALESCE(SUM(o.totalAmount), 0)
+      FROM Order o
+      WHERE o.company.id = :companyId
+      AND o.status != farmix.com.backend.order.entity.OrderStatus.CANCELLED
+""")
+    BigDecimal calculateTotalRevenue(@Param("companyId") Long companyId);
+
+    @Query("""
+    SELECT COALESCE(SUM(o.totalAmount), 0)
+    FROM Order o
+    WHERE o.company.id = :companyId
+      AND o.status = farmix.com.backend.order.entity.OrderStatus.PAID
+""")
+    BigDecimal calculatePaidRevenue(@Param("companyId") Long companyId);
+    // Count orders by status
+    long countByCompany_IdAndStatus(Long companyId, OrderStatus status);
+    long countByCompany_Id(Long companyId);
 
 }

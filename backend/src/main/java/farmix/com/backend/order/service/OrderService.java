@@ -1,5 +1,6 @@
-package farmix.com.backend.order;
+package farmix.com.backend.order.service;
 
+import farmix.com.backend.audit.service.AuditLogService;
 import farmix.com.backend.common.exception.BadRequestException;
 import farmix.com.backend.common.exception.NotFoundException;
 import farmix.com.backend.company.entity.Company;
@@ -46,6 +47,7 @@ public class OrderService {
     private final UserRepository userRepository;
     private final OrderMapper orderMapper;
     private final CurrentUser currentUser;
+    private final AuditLogService auditLogService;
 
 
     @Transactional
@@ -109,6 +111,9 @@ public class OrderService {
 
 
         }
+
+        auditLogService.record(companyId, userId, "ORDER_CREATED", "Order", order.getId(), null, "Total: "+ totalAmount);
+
         order.setTotalAmount(totalAmount);
         return orderMapper.toOrderResponse(order);
     }
@@ -141,7 +146,7 @@ public class OrderService {
 
         Order order = orderRepository.findByIdAndCompany_Id(id, companyId)
                 .orElseThrow(() -> new NotFoundException("Order not found"));
-
+        String oldStatus = order.getStatus().name();
         if (order.getStatus() == OrderStatus.CANCELLED){
             throw new BadRequestException("Cannot change status of a cancelled order");
         }
@@ -167,6 +172,9 @@ public class OrderService {
         }
         order.setStatus(req.status());
         order.setUpdatedBy(updater);
+
+        auditLogService.record(companyId, userId, "ORDER_STATUS_CHANGED", "Order", order.getId(), oldStatus, req.status().name());
+
         return orderMapper.toOrderResponse(order);
     }
 

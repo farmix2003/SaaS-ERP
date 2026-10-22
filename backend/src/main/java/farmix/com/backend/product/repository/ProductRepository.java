@@ -11,6 +11,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -42,5 +43,18 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             "AND (:q IS NULL OR LOWER(CAST(p.name AS text)) LIKE LOWER(CAST(CONCAT('%', :q, '%') AS text)) " +
             "OR LOWER(CAST(p.sku AS text)) LIKE LOWER(CAST(CONCAT('%', :q, '%') AS text)))")
     Page<Product> search(@Param("companyId") Long companyId, @Param("q") String q, @Param("status")ProductStatus status, Pageable pageable);
+
+    // Low stock query
+    @Query("""
+    SELECT p
+    FROM Product p
+    WHERE p.company.id = :companyId
+      AND p.status = farmix.com.backend.product.entity.ProductStatus.ACTIVE
+      AND p.stockQuantity <= :threshold
+    ORDER BY p.stockQuantity ASC
+""")
+    List<Product> findLowStockProducts(@Param("companyId") Long companyId, @Param("threshold") int threshold);
+
+    long countByCompany_IdAndStatusAndStockQuantityLessThanEqual(Long companyId, ProductStatus status, int threshold);
 
 }

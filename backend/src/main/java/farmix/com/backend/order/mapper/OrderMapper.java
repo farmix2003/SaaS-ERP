@@ -34,7 +34,7 @@ public class OrderMapper {
         );
     }
 
-        private OrderItemResponse toOrderItemResponse(OrderItem orderItem){
+        public OrderItemResponse toOrderItemResponse(OrderItem orderItem){
             return new OrderItemResponse(
                     orderItem.getId(),
                     orderItem.getProduct().getId(),

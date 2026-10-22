@@ -1,5 +1,6 @@
 package farmix.com.backend.user;
 
+import farmix.com.backend.audit.service.AuditLogService;
 import farmix.com.backend.common.exception.BadRequestException;
 import farmix.com.backend.company.entity.Company;
 import farmix.com.backend.company.repository.CompanyRepository;
@@ -45,6 +46,9 @@ public class UserServiceTest {
 
     @Mock
     private CurrentUser currentUser;
+
+    @Mock
+    private AuditLogService auditLogService;
 
     @InjectMocks
     private UserService service;
