@@ -39,7 +39,7 @@ public class OrderController {
         return orderService.getOrder(id);
     }
 
-    @PatchMapping("/{id}")
+    @PatchMapping("/{id}/status")
     @ResponseStatus(HttpStatus.OK)
     public OrderResponse updateOrderStatus(@PathVariable Long id, @Valid @RequestBody UpdateOrderStatusRequest request){
         return orderService.updateStatus(id, request);

@@ -110,7 +110,7 @@ public class OrderServiceTest {
         when(userRepository.getReferenceById(20L)).thenReturn(mockUser);
         when(customerRepository.findByIdAndCompany_Id(5L, 10L)).thenReturn(Optional.of(mockCustomer));
         when(productRepository.findByIdAndCompanyIdForUpdate(100L, 10L)).thenReturn(Optional.of(mockProduct));
-
+        when(orderRepository.save(any(Order.class))).thenAnswer(invocation -> invocation.getArgument(0));
         OrderResponse expectedResponse = new OrderResponse(1L, 10L, 5L, "Jane", OrderStatus.PENDING, new BigDecimal(100),"Test note", List.of(new OrderItemResponse(1L, mockProduct.getId(), mockProduct.getName(), mockProduct.getSku(), 10, mockProduct.getSalePrice(), new BigDecimal("2000.00"))), LocalDateTime.now(), null); // Stub mapped response
         when(orderMapper.toOrderResponse(any(Order.class))).thenReturn(expectedResponse);
 
