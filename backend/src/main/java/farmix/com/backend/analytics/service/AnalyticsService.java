@@ -34,7 +34,7 @@ public class AnalyticsService {
     private static final int DEFAULT_TOP_PRODUCTS_LIMIT = 5;
 
     @Transactional(readOnly = true)
-    @PreAuthorize("hasAnyRole('COMPANY_ADMIN, 'MANAGER')")
+    @PreAuthorize("hasAnyRole('COMPANY_ADMIN', 'MANAGER')")
     public RevenueSummaryResponse getRevenueSummary(){
         Long companyId = currentUser.getCompanyId();
 
@@ -51,7 +51,7 @@ public class AnalyticsService {
     }
 
     @Transactional(readOnly = true)
-    @PreAuthorize("hasAnyRole('COMPANY_ADMIN, 'MANAGER')")
+    @PreAuthorize("hasAnyRole('COMPANY_ADMIN', 'MANAGER')")
     public OrdersSummaryResponse getOrdersSummary(){
         Long companyId = currentUser.getCompanyId();
 
@@ -64,7 +64,7 @@ public class AnalyticsService {
     }
 
     @Transactional(readOnly = true)
-    @PreAuthorize("hasAnyRole('COMPANY_ADMIN, 'MANAGER')")
+    @PreAuthorize("hasAnyRole('COMPANY_ADMIN', 'MANAGER')")
     public List<TopProductResponse> getTopSellings(Integer limit){
        Long companyId = currentUser.getCompanyId();
 
@@ -73,7 +73,7 @@ public class AnalyticsService {
     }
 
     @Transactional(readOnly = true)
-    @PreAuthorize("hasAnyRole('COMPANY_ADMIN, 'MANAGER')")
+    @PreAuthorize("hasAnyRole('COMPANY_ADMIN', 'MANAGER')")
     public List<LowStockProductResponse> getLowStockProducts(Integer threshold){
         Long companyId = currentUser.getCompanyId();
         int limitThreshold = (threshold == null || threshold < 0) ? DEFAULT_LOW_STOCk_THRESHOLD : threshold;
@@ -90,7 +90,7 @@ public class AnalyticsService {
     }
 
   @Transactional(readOnly = true)
-  @PreAuthorize("hasAnyRole('COMPANY_ADMIN, 'MANAGER')")
+  @PreAuthorize("hasAnyRole('COMPANY_ADMIN', 'MANAGER')")
   public DashboardSummaryResponse getDashboardSummary(){
         Long companyId = currentUser.getCompanyId();
 

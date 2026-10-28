@@ -112,10 +112,13 @@ public class OrderService {
 
         }
 
-        auditLogService.record(companyId, userId, "ORDER_CREATED", "Order", order.getId(), null, "Total: "+ totalAmount);
-
         order.setTotalAmount(totalAmount);
-        return orderMapper.toOrderResponse(order);
+
+        Order savedOrder = orderRepository.save(order);
+
+        auditLogService.record(companyId, userId, "ORDER_CREATED", "Order", savedOrder.getId(), null, "Total: "+ totalAmount);
+
+        return orderMapper.toOrderResponse(savedOrder);
     }
 
     @Transactional(readOnly = true)
